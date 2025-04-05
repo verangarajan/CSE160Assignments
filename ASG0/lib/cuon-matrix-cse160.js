@@ -51,6 +51,7 @@ class Vector3 {
 
         this.elements[0] = this.elements[0]+other.elements[0];
         this.elements[1] = this.elements[1]+other.elements[1];
+        this.elements[2] = this.elements[2] + other.elements[2];
 
         return this;
     };
@@ -66,7 +67,7 @@ class Vector3 {
         // Don't delete the return statement.
         this.elements[0] = this.elements[0]- other.elements[0];
         this.elements[1] = this.elements[1] - other.elements[1];
-
+        this.elements[2] = this.elements[2] - other.elements[2];
         return this;
     };
 
@@ -81,7 +82,7 @@ class Vector3 {
         // Don't delete the return statement.
         this.elements[0] = this.elements[0] / scalar;
         this.elements[1] = this.elements[1] / scalar;
-
+        this.elements[2] = this.elements[2] / scalar;
         return this;
     };
 
@@ -97,6 +98,7 @@ class Vector3 {
 
         this.elements[0] = this.elements[0] * scalar;
         this.elements[1] = this.elements[1] * scalar;
+        this.elements[2] = this.elements[2] * scalar;
 
         return this;
     };
@@ -111,7 +113,7 @@ class Vector3 {
 
         // Don't delete the return statement.
 
-        d+=((other1.elements[0] * other2.elements[0]) + (other1.elements[1] * other2.elements[1]))
+        d+=((other1.elements[0] * other2.elements[0]) + (other1.elements[1] * other2.elements[1]) + (other1.elements[2] * other2.elements[2]))
         return d;
     }
 
