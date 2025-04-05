@@ -52,7 +52,7 @@ function drawVector(v, color)
 function areaTriangle(v1, v2)
 {
   let cross = Vector3.cross(v1, v2);
-  console.log(cross);
+  //console.log(cross);
   let cross_mag = cross.magnitude();
   return (cross_mag * 0.5);
 }
