@@ -1,6 +1,7 @@
 // DrawTriangle.js (c) 2012 matsuda
 
-//Code inspired by Eloquent Javascript Documentation
+//Code inspired by Eloquent Javascript Documentation and StackOverflow
+//Used ChatGPT, StackOverflow, and documentation for debugging purposes
 
 function main() {  
   // Retrieve <canvas> element
