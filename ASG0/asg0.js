@@ -165,7 +165,7 @@ function handleDrawOperationEvent()
   {
     let scalar = parseFloat(document.getElementById('scalar').value);
     let v3 = v1.div(scalar);
-    let v4 = v2.mul(scalar);
+    let v4 = v2.div(scalar);
     drawVector(v3, "green");
     drawVector(v4, "green");
   }
