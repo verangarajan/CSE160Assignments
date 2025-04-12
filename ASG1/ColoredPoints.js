@@ -80,6 +80,9 @@ function addActionsForHtmlUI()
   document.getElementById('red').onclick = function() {g_selectedColor = [1.0, 0.0, 0.0, 1.0];};
   document.getElementById('green').onclick = function() {g_selectedColor = [0.0, 1.0, 0.0, 1.0];};
 
+  //clear button
+  document.getElementById('clear').onclick = function() {g_shapesList = []; renderAllShapes();};
+
   //sliders 
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100;});
   document.getElementById('greenSlide').addEventListener('mouseup', function() {g_selectedColor[1] = this.value/100;});
@@ -111,18 +114,30 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-var g_points = [];  // The array for the position of a mouse press
-var g_colors = [];  // The array to store the color of a point
-var g_sizes = [];
+
+var g_shapesList = [];
+
+//var g_points = [];  // The array for the position of a mouse press
+//var g_colors = [];  // The array to store the color of a point
+//var g_sizes = [];
+
 
 function click(ev) {
   
   let [x,y] = convertCoordinatesEventToGL(ev);
-  g_points.push([x, y]);
 
-  g_colors.push(g_selectedColor.slice());
+  let point = new Point();
+  point.position = [x,y];
+  point.color = g_selectedColor.slice();
+  point.size = g_selectedSize;
+  g_shapesList.push(point);
 
-  g_sizes.push(g_selectedSize);
+ // g_points.push([x, y]);
+
+ // g_colors.push(g_selectedColor.slice());
+
+  //g_sizes.push(g_selectedSize);
+
   // Store the coordinates to g_points array
  // if (x >= 0.0 && y >= 0.0) {      // First quadrant
   //  g_colors.push([1.0, 0.0, 0.0, 1.0]);  // Red
@@ -154,21 +169,15 @@ function renderAllShapes()
 // Clear <canvas>
 gl.clear(gl.COLOR_BUFFER_BIT);
 
-var len = g_points.length;
-for(var i = 0; i < len; i++) {
-  var xy = g_points[i];
-  var rgba = g_colors[i];
-  var size = g_sizes[i];
+//var len = g_points.length;
 
-  // Pass the position of a point to a_Position variable
-  gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-  // Pass the color of a point to u_FragColor variable
-  gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
+var len = g_shapesList.length;
 
-  //Pass the size to u_Size
-  gl.uniform1f(u_Size, size);
-  // Draw
+for(var i = 0; i < len; i++) 
+  {
 
-  gl.drawArrays(gl.POINTS, 0, 1);
+  g_shapesList[i].render();
+
 }
+
 }
