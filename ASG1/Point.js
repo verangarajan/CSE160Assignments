@@ -28,5 +28,6 @@ class Point
     // Draw
   
     gl.drawArrays(gl.POINTS, 0, 1);
+  
   }
 }
