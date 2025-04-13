@@ -95,6 +95,10 @@ function addActionsForHtmlUI()
   document.getElementById('triButton').onclick = function() {g_selectedType = TRIANGLE};
   document.getElementById('circleButton').onclick = function() {g_selectedType = CIRCLE};
 
+  //picture button
+  document.getElementById('pictureButton').onclick = function() {drawPicture();};
+
+
 
   //sliders 
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100;});
@@ -216,6 +220,61 @@ for(var i = 0; i < len; i++)
 }
 
 var duration = performance.now() - startTime;
+
+
+}
+
+function setTri(x, y, size, color= [1,1,1,1])
+{
+  let tri = new EquilateralTriangle();
+  tri.position = [x, y];
+  tri.size = size;
+  tri.color = color;
+  g_shapesList.push(tri);
+}
+
+
+function drawPicture()
+{
+  //function to draw the picture
+
+  //christmas trees
+
+  setTri(-0.6, 0.2, 30,[0.0, 1.0, 0.0, 1.0] );
+  setTri(-0.6, 0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.6, 0.0, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.6, -0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.6, -0.2, 20, [0.6, 0.3, 0.1, 1]);
+
+  setTri(-0.3, 0.2, 30,[0.0, 1.0, 0.0, 1.0] );
+  setTri(-0.3, 0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.3, 0.0, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.3, -0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(-0.3, -0.2, 20, [0.6, 0.3, 0.1, 1]);
+
+  setTri(0, 0.2, 30,[0.0, 1.0, 0.0, 1.0] );
+  setTri(0, 0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0, 0.0, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0, -0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0, -0.2, 20, [0.6, 0.3, 0.1, 1]);
+
+
+  setTri(0.3, 0.2, 30,[0.0, 1.0, 0.0, 1.0] );
+  setTri(0.3, 0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.3, 0.0, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.3, -0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.3, -0.2, 20, [0.6, 0.3, 0.1, 1]);
+
+  setTri(0.6, 0.2, 30,[0.0, 1.0, 0.0, 1.0] );
+  setTri(0.6, 0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.6, 0.0, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.6, -0.1, 30, [0.0, 1.0, 0.0, 1.0]);
+  setTri(0.6, -0.2, 20, [0.6, 0.3, 0.1, 1]);
+
+  
+
+
+  renderAllShapes();
 
 
 }
