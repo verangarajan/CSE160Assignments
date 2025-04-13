@@ -1,5 +1,9 @@
 // ColoredPoint.js (c) 2012 matsuda
 // Vertex shader program
+
+//Code adapted from Prof. Davis videos on Youtube
+//Used online documentation and ChatGPT for debugging purposes
+
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
   uniform float u_Size;
@@ -97,6 +101,9 @@ function addActionsForHtmlUI()
 
   //picture button
   document.getElementById('pictureButton').onclick = function() {drawPicture();};
+
+  document.getElementById('randomColorButton').onclick = function() {setRandomColor();};
+
 
 
 
@@ -277,4 +284,13 @@ function drawPicture()
   renderAllShapes();
 
 
+}
+
+function setRandomColor()
+{
+  let color1 = Math.random();
+  let color2 = Math.random();
+  let color3 = Math.random();
+
+  g_selectedColor = [color1, color2, color3, 1.0];
 }
