@@ -79,7 +79,7 @@ const CIRCLE = 2;
 
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
-
+let g_segmentSize = 5;
 let g_selectedType = POINT;
 
 function addActionsForHtmlUI()
@@ -103,6 +103,9 @@ function addActionsForHtmlUI()
 
   //size slider
   document.getElementById('sizeSlide').addEventListener('mouseup', function() {g_selectedSize = this.value;});
+
+  document.getElementById('segmentSlide').addEventListener('mouseup', function() {g_segmentSize = this.value;});
+
 
 
 
@@ -153,6 +156,7 @@ function click(ev) {
   else
   {
     point = new Circle();
+    point.segments = g_segmentSize;
   }
 
   point.position = [x,y];
