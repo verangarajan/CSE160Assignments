@@ -73,9 +73,13 @@ if (!u_Size) {
 }
 
 //Globals related to UI elements
+const POINT = 0;
+const TRIANGLE = 1;
 
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_selectedSize = 5;
+
+let g_selectedType = POINT;
 
 function addActionsForHtmlUI()
 {
@@ -84,6 +88,11 @@ function addActionsForHtmlUI()
 
   //clear button
   document.getElementById('clear').onclick = function() {g_shapesList = []; renderAllShapes();};
+
+  //point and triangle buttons
+  document.getElementById('pointButton').onclick = function() {g_selectedType = POINT};
+  document.getElementById('triButton').onclick = function() {g_selectedType = TRIANGLE};
+
 
   //sliders 
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100;});
@@ -130,7 +139,16 @@ function click(ev) {
   
   let [x,y] = convertCoordinatesEventToGL(ev);
 
-  let point = new Triangle();
+  let point;
+  if (g_selectedType == POINT)
+  {
+    point = new Point();
+  }
+  else
+  {
+    point = new Triangle();
+  }
+  
   point.position = [x,y];
   point.color = g_selectedColor.slice();
   point.size = g_selectedSize;
