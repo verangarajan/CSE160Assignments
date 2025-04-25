@@ -253,15 +253,55 @@ body.render();
 
 //var duration = performance.now() - startTime;
 
+var rightArm = new Cube();
+rightArm.color = [1,1,0,1];
+rightArm.matrix.setTranslate(.25, 0.15, 0.0);
+rightArm.matrix.rotate(-90, 0, 0, 1);
+rightArm.matrix.scale(0.2, .5, .5);
+rightArm.render();
+
+var rightHand = new Cube();
+rightHand.color = [0,1,0,1];
+rightHand.matrix.setTranslate(.75, 0.125, 0.0);
+rightHand.matrix.rotate(-90, 0, 0, 1);
+rightHand.matrix.scale(0.15, .15, .5);
+rightHand.render();
+
 var leftArm = new Cube();
 leftArm.color = [1,1,0,1];
-leftArm.matrix.setTranslate(.7, 0, 0.0);
-leftArm.matrix.rotate(45, 0, 0, 1);
-leftArm.matrix.scale(0.25, .7, .5);
+leftArm.matrix.setTranslate(-.75, 0.15, 0.0);
+leftArm.matrix.rotate(-90, 0, 0, 1);
+leftArm.matrix.scale(0.2, .5, .5);
 leftArm.render();
 
+var leftHand = new Cube();
+leftHand .color = [0,1,0,1];
+leftHand.matrix.setTranslate(-0.90, 0.125, 0.0);
+leftHand.matrix.rotate(-90, 0, 0, 1);
+leftHand.matrix.scale(0.15, .15, .5);
+leftHand.render();
+
+var head = new Cube();
+head .color = [1,0,1,1];
+head.matrix.setTranslate(-0.1, 0.5, 0.0);
+//head.matrix.rotate(-45, 0, 0, 1);
+head.matrix.scale(0.25, 0.25, .5);
+head.render();
 
 
+var rightLeg = new Cube();
+rightLeg.color = [1,1,0,1];
+rightLeg.matrix.setTranslate(0.05, -0.9, 0.0);
+rightLeg.matrix.rotate(0, 0, 0, 1);
+rightLeg.matrix.scale(0.2, .4, .5);
+rightLeg.render();
+
+var leftLeg = new Cube();
+leftLeg.color = [1,1,0,1];
+leftLeg.matrix.setTranslate(-0.05, -0.9, 0.0);
+leftLeg.matrix.rotate(0, 0, 0, 1);
+leftLeg.matrix.scale(-0.2, .4, .5);
+leftLeg.render();
 
 }
 
