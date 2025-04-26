@@ -105,6 +105,7 @@ let g_selectedSize = 5;
 let g_segmentSize = 26;
 let g_selectedType = POINT;
 let g_globalAngle = 0;
+let g_rightArmAngle = 90;
 
 
 function addActionsForHtmlUI()
@@ -140,6 +141,7 @@ function addActionsForHtmlUI()
 
   document.getElementById('angleSlide').addEventListener('mousemove', function() {g_globalAngle = this.value; renderAllShapes();});
 
+  document.getElementById('rightArmSlide').addEventListener('mousemove', function() {g_rightArmAngle = this.value; renderAllShapes();});
 
 
 
@@ -256,7 +258,7 @@ body.render();
 var rightArm = new Cube();
 rightArm.color = [1,1,0,1];
 rightArm.matrix.setTranslate(.25, 0.15, 0.0);
-rightArm.matrix.rotate(-90, 0, 0, 1);
+rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
 rightArm.matrix.scale(0.2, .5, .5);
 rightArm.render();
 
