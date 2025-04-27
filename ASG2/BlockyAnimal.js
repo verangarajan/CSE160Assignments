@@ -312,11 +312,11 @@ var handCoordinates = new Matrix4(rightArm.matrix);
 rightArm.render();
 
 var rightHand = new Cube();
-rightHand.color = [0.8,0.4,0,1];
+rightHand.color = [0,1,0,1];
 rightHand.matrix = handCoordinates;
-rightHand.matrix.translate(0.0, 1.2, 0.0001);
+rightHand.matrix.translate(0.3, 1.4, 0.0001);
 rightHand.matrix.rotate(-g_rightHandAngle, 0, 0, 1);
-rightHand.matrix.scale(0.5, .5, .5);
+rightHand.matrix.scale(0.5, 0.5, .5);
 rightHand.render();
 
 var leftArm = new Cube();
