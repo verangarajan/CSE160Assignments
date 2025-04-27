@@ -186,6 +186,8 @@ function tick()
 
   console.log(g_seconds);
 
+  updateAnimationAngles();
+
   renderAllShapes();
 
   requestAnimationFrame(tick);
@@ -257,6 +259,14 @@ function convertCoordinatesEventToGL(ev)
   return([x, y]);
 }
 
+function updateAnimationAngles()
+{
+  if(g_armAnimation)
+  {
+    g_rightArmAngle = (45*Math.sin(g_seconds));
+  }
+}
+
 
 function renderAllShapes()
 {
@@ -283,9 +293,9 @@ body.render();
 var rightArm = new Cube();
 rightArm.color = [1,1,0,1];
 rightArm.matrix.setTranslate(.25, 0.15, 0.0);
-//rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
+rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
 
-rightArm.matrix.rotate(45*Math.sin(g_seconds), 0, 0, 1);
+//rightArm.matrix.rotate(45*Math.sin(g_seconds), 0, 0, 1);
 
 rightArm.matrix.scale(0.2, .5, .5);
 /* 
