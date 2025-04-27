@@ -106,10 +106,16 @@ let g_segmentSize = 26;
 let g_selectedType = POINT;
 let g_globalAngle = 0;
 let g_rightArmAngle = 90;
-
-
+let g_rightHandAngle = 90;
+let g_armAnimation = false;
 function addActionsForHtmlUI()
 {
+
+  document.getElementById("animationArmONbutton").onclick = function() {g_armAnimation = true;};
+  document.getElementById("animationArmOFFbutton").onclick = function() {g_armAnimation = false;};
+
+
+
   document.getElementById('red').onclick = function() {g_selectedColor = [1.0, 0.0, 0.0, 1.0];};
   document.getElementById('green').onclick = function() {g_selectedColor = [0.0, 1.0, 0.0, 1.0];};
 
@@ -143,6 +149,7 @@ function addActionsForHtmlUI()
 
   document.getElementById('rightArmSlide').addEventListener('mousemove', function() {g_rightArmAngle = this.value; renderAllShapes();});
 
+  document.getElementById('rightHandSlide').addEventListener('mousemove', function() {g_rightHandAngle = this.value; renderAllShapes();});
 
 
 
@@ -166,11 +173,29 @@ function main() {
   // Clear <canvas>
  // gl.clear(gl.COLOR_BUFFER_BIT);
 
- renderAllShapes();
+ //renderAllShapes();
+ requestAnimationFrame(tick);
+}
+
+var g_startTime = performance.now()/1000.0;
+var g_seconds = performance.now()/1000.0-g_startTime;
+
+function tick()
+{
+  g_seconds = performance.now()/1000.0-g_startTime;
+
+  console.log(g_seconds);
+
+  renderAllShapes();
+
+  requestAnimationFrame(tick);
+
 }
 
 
 var g_shapesList = [];
+
+
 
 //var g_points = [];  // The array for the position of a mouse press
 //var g_colors = [];  // The array to store the color of a point
@@ -258,15 +283,30 @@ body.render();
 var rightArm = new Cube();
 rightArm.color = [1,1,0,1];
 rightArm.matrix.setTranslate(.25, 0.15, 0.0);
-rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
+//rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
+
+rightArm.matrix.rotate(45*Math.sin(g_seconds), 0, 0, 1);
+
 rightArm.matrix.scale(0.2, .5, .5);
+/* 
+if(g_armAnimation)
+{
+  rightArm.matrix.rotate(45*Math.sin(g_seconds), 0, 0, 1);
+}
+else
+{
+  rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
+} */
+
+var handCoordinates = new Matrix4(rightArm.matrix);
 rightArm.render();
 
 var rightHand = new Cube();
-rightHand.color = [0,1,0,1];
-rightHand.matrix.setTranslate(.75, 0.125, 0.0);
-rightHand.matrix.rotate(-90, 0, 0, 1);
-rightHand.matrix.scale(0.15, .15, .5);
+rightHand.color = [0.8,0.4,0,1];
+rightHand.matrix = handCoordinates;
+rightHand.matrix.translate(0.0, 1.2, 0.0001);
+rightHand.matrix.rotate(-g_rightHandAngle, 0, 0, 1);
+rightHand.matrix.scale(0.5, .5, .5);
 rightHand.render();
 
 var leftArm = new Cube();
