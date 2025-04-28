@@ -107,6 +107,7 @@ let g_selectedType = POINT;
 let g_globalAngle = 0;
 let g_rightArmAngle = 90;
 let g_rightHandAngle = 90;
+let g_rightFingerAngle = 90;
 let g_armAnimation = false;
 function addActionsForHtmlUI()
 {
@@ -151,6 +152,7 @@ function addActionsForHtmlUI()
 
   document.getElementById('rightHandSlide').addEventListener('mousemove', function() {g_rightHandAngle = this.value; renderAllShapes();});
 
+  document.getElementById('rightFingerSlide').addEventListener('mousemove', function() {g_rightFingerAngle = this.value; renderAllShapes();});
 
 
 }
@@ -317,7 +319,17 @@ rightHand.matrix = handCoordinates;
 rightHand.matrix.translate(0.3, 1.4, 0.0001);
 rightHand.matrix.rotate(-g_rightHandAngle, 0, 0, 1);
 rightHand.matrix.scale(0.5, 0.5, .5);
+var fingerCoordinates = new Matrix4(rightHand.matrix);
 rightHand.render();
+
+var rightFinger = new Cube();
+rightFinger.color = [1, 0.6, 0, 1]; 
+rightFinger.matrix = fingerCoordinates;
+rightFinger.matrix.translate(-0.3, 0.8, 0.0001); 
+rightFinger.matrix.rotate(-g_rightFingerAngle, 0, 0, 1); 
+rightFinger.matrix.scale(0.4, 0.4, 0.4); 
+rightFinger.render();
+
 
 var leftArm = new Cube();
 leftArm.color = [1,1,0,1];
