@@ -25,12 +25,29 @@ var FSHADER_SOURCE = `
   varying vec2 v_UV;
   uniform vec4 u_FragColor;
   uniform sampler2D u_Sampler0;
+  uniform int u_whichTexture;
+
   void main() {
+   if(u_whichTexture == -2)
+   {
     gl_FragColor = u_FragColor;
-    gl_FragColor = vec4(v_UV, 1.0, 1.0);
-    gl_FragColor = texture2D(u_Sampler0, v_UV);
+   }
+
+  else if (u_whichTexture == -1)
+  {
+     gl_FragColor = vec4(v_UV, 1.0, 1.0);
   }
-`
+
+  else if (u_whichTexture == 0)
+  {
+   gl_FragColor = texture2D(u_Sampler0, v_UV);
+  }
+  
+  else
+  {
+  gl_FragColor = vec4(1, .2, .2, 1);
+  }
+}`
 
 let canvas;
 let gl;
@@ -43,6 +60,7 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_viewMatrix;
 let u_Sampler0;
+let u_whichTexture;
 
 function setupWebGL()
 {
@@ -119,6 +137,12 @@ if (!u_ProjectionMatrix) {
   u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
   if (!u_Sampler0) {
     console.log('Failed to get the storage location of u_Sampler');
+    return false;
+  }
+
+  u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
+  if (!u_whichTexture) {
+    console.log('Failed to get the storage location of u_whichTexture');
     return false;
   }
 
@@ -381,6 +405,7 @@ gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 var body = new Cube();
 body.color = [1.0, 0.0, 0.0, 1.0];
+body.textureNum = 0;
 body.matrix.translate(-.25, -.5, 0.0);
 body.matrix.scale(0.5, 1, .5);
 body.render();

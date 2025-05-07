@@ -9,6 +9,7 @@ class Cube
       //  this.segments = 10;
 
       this.matrix = new Matrix4();
+      this.textureNum = -2;
 
     }
 
@@ -17,6 +18,8 @@ class Cube
 //    var xy = this.position;
     var rgba = this.color;
    // var size = this.size;
+
+   gl.uniform1i(u_whichTexture, this.textureNum);
   
   
     // Pass the position of a point to a_Position variable
