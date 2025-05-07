@@ -150,11 +150,7 @@ if (!u_ProjectionMatrix) {
 var identityM = new Matrix4();
 gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 
-var viewM = new Matrix4();
-gl.uniformMatrix4fv(u_viewMatrix, false, viewM.elements);
 
-var projectionM = new Matrix4();
-gl.uniformMatrix4fv(u_ProjectionMatrix, false, projectionM.elements);
 
 
 //get storage location of u_Size
@@ -285,6 +281,8 @@ function main() {
   //canvas.onmousemove = click;
 
   canvas.onmousemove = function(ev) {if(ev.buttons == 1){click(ev)}};
+
+  document.onkeydown = keydown;
   // Specify the color for clearing <canvas>
 
   initTextures();
@@ -388,11 +386,37 @@ function updateAnimationAngles()
   }
 }
 
+function keydown(ev)
+{
+  if(ev.keyCode == 39) //right arrow
+  {
+    g_eye[0] -=0.2;
+  }
+  else if(ev.keyCode == 37)
+  {
+    g_eye[0]+=0.2;
+  }
+  renderAllShapes();
+  console.log(ev.keyCode);
+}
+
+var g_eye = [0, 0, 3];
+var g_at = [0, 0, -100];
+var g_up = [0, 1, 0];
 
 function renderAllShapes()
 {
 
 var startTime = performance.now();
+
+var projectionM = new Matrix4();
+projectionM.setPerspective(50, canvas.width/canvas.height, 1, 100);
+gl.uniformMatrix4fv(u_ProjectionMatrix, false, projectionM.elements);
+
+var viewM = new Matrix4();
+viewM.setLookAt(g_eye[0], g_eye[1], g_eye[2],  g_at[0] ,g_at[1],g_at[2],  0,1,0); // (eye, at, up)
+gl.uniformMatrix4fv(u_viewMatrix, false, viewM.elements);
+
 
 var globalRotMat = new Matrix4().rotate(g_globalAngle, 0, 1, 0);
 gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
