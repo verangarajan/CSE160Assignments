@@ -168,6 +168,7 @@ const TRIANGLE = 1;
 const CIRCLE = 2;
 
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
+let g_camera = new Camera();
 let g_selectedSize = 5;
 let g_segmentSize = 26;
 let g_selectedType = POINT;
@@ -415,6 +416,11 @@ gl.uniformMatrix4fv(u_ProjectionMatrix, false, projectionM.elements);
 
 var viewM = new Matrix4();
 viewM.setLookAt(g_eye[0], g_eye[1], g_eye[2],  g_at[0] ,g_at[1],g_at[2],  0,1,0); // (eye, at, up)
+
+//viewM.setLookAt(g_camera.eye.x, g_camera.eye.y,  g_camera.eye.z,
+           //     g_camera.at.x,  g_camera.at.y,  g_camera.at.z, 
+          //      g_camera.up.x,g_camera.up.y, g_camera.up.z);
+
 gl.uniformMatrix4fv(u_viewMatrix, false, viewM.elements);
 
 
@@ -426,6 +432,14 @@ gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawTriangle3D([-1.0, 0.0, 0.0,   -0.5, -1.0, 0.0, 0.0, 0.0, 0.0]);
+
+var floor = new Cube();
+floor.color = [1.0, 0.0, 0.0, 1.0];
+floor.textureNum = 0;
+floor.matrix.translate(0, -.75, 0.0);
+floor.matrix.scale(10, 0, 10);
+floor.matrix.translate(-.5, 0, -0.5);
+floor.render();
 
 var body = new Cube();
 body.color = [1.0, 0.0, 0.0, 1.0];

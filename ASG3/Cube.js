@@ -65,6 +65,10 @@ class Cube
      gl.uniform4f(u_FragColor, rgba[0] * 0.5, rgba[1] * 0.5, rgba[2] * 0.5, rgba[3]);
      drawTriangle3D([0, 0, 0,   0, 0, 1,   0, 1, 1]);
      drawTriangle3D([0, 0, 0,   0, 1, 1,   0, 1, 0]);
+
+     gl.uniform4f(u_FragColor, rgba[0] * 0.4, rgba[1] * 0.4, rgba[2] * 0.4, rgba[3]);
+    drawTriangle3D([0, 0, 1,   1, 0, 1,   1, 1, 1]);
+    drawTriangle3D([0, 0, 1,   1, 1, 1,   0, 1, 1]);
   
   }
 }
