@@ -391,11 +391,11 @@ function keydown(ev)
 {
   if(ev.keyCode == 37) //right arrow
   {
-    g_eye[0] -=0.2;
+    g_camera.eye.elements[0] -=0.2;
   }
   else if(ev.keyCode == 39)
   {
-    g_eye[0]+=0.2;
+    g_camera.eye.elements[0]+=0.2;
   }
   renderAllShapes();
   console.log(ev.keyCode);
@@ -443,11 +443,17 @@ projectionM.setPerspective(50, canvas.width/canvas.height, 1, 100);
 gl.uniformMatrix4fv(u_ProjectionMatrix, false, projectionM.elements);
 
 var viewM = new Matrix4();
-viewM.setLookAt(g_eye[0], g_eye[1], g_eye[2],  g_at[0] ,g_at[1],g_at[2],  0,1,0); // (eye, at, up)
 
-//viewM.setLookAt(g_camera.eye.x, g_camera.eye.y,  g_camera.eye.z,
-           //     g_camera.at.x,  g_camera.at.y,  g_camera.at.z, 
-          //      g_camera.up.x,g_camera.up.y, g_camera.up.z);
+//console.log("This is the eye fields", g_camera.eye.elements);
+//console.log("This is the at fields", g_camera.at.elements);
+//console.log("This is the up fields", g_camera.up.elements);
+
+
+//viewM.setLookAt(g_eye[0], g_eye[1], g_eye[2],  g_at[0] ,g_at[1],g_at[2],  0,1,0); // (eye, at, up)
+
+viewM.setLookAt(g_camera.eye.elements[0], g_camera.eye.elements[1],  g_camera.eye.elements[2],
+                g_camera.at.elements[0],  g_camera.at.elements[1],  g_camera.at.elements[2], 
+                g_camera.up.elements[0],g_camera.up.elements[1], g_camera.up.elements[2]);
 
 gl.uniformMatrix4fv(u_viewMatrix, false, viewM.elements);
 
@@ -460,7 +466,7 @@ gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawTriangle3D([-1.0, 0.0, 0.0,   -0.5, -1.0, 0.0, 0.0, 0.0, 0.0]);
-drawMap();
+//drawMap();
 
 //floor
 var floor = new Cube();
