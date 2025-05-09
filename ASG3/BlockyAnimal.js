@@ -389,11 +389,11 @@ function updateAnimationAngles()
 
 function keydown(ev)
 {
-  if(ev.keyCode == 39) //right arrow
+  if(ev.keyCode == 37) //right arrow
   {
     g_eye[0] -=0.2;
   }
-  else if(ev.keyCode == 37)
+  else if(ev.keyCode == 39)
   {
     g_eye[0]+=0.2;
   }
@@ -404,6 +404,34 @@ function keydown(ev)
 var g_eye = [0, 0, 3];
 var g_at = [0, 0, -100];
 var g_up = [0, 1, 0];
+
+var g_map = [
+  [1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,1,1,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,1,0,0,1],
+  [1,0,0,0,0,0,0,1]
+];
+
+function drawMap()
+{
+  for(x=0; x<8; x++)
+  {
+    for(y=0; y<8; y++)
+    {
+      if(g_map[x][y] == 1)
+      {
+        var body = new Cube();
+        body.color = [1.0, 1.0, 1.0, 1.0];
+        body.matrix.translate(x-4, -.85, y-4);
+        body.render();
+      }
+    }
+  }
+}
 
 function renderAllShapes()
 {
@@ -432,7 +460,7 @@ gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawTriangle3D([-1.0, 0.0, 0.0,   -0.5, -1.0, 0.0, 0.0, 0.0, 0.0]);
-
+drawMap();
 
 //floor
 var floor = new Cube();
