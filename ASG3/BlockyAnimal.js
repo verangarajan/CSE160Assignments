@@ -45,7 +45,7 @@ var FSHADER_SOURCE = `
   
   else
   {
-  gl_FragColor = vec4(1, .2, .2, 1);
+  gl_FragColor = vec4(0, 0, 1, 1);
   }
 }`
 
@@ -433,6 +433,8 @@ gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawTriangle3D([-1.0, 0.0, 0.0,   -0.5, -1.0, 0.0, 0.0, 0.0, 0.0]);
 
+
+//floor
 var floor = new Cube();
 floor.color = [1.0, 0.0, 0.0, 1.0];
 floor.textureNum = 0;
@@ -440,6 +442,15 @@ floor.matrix.translate(0, -.75, 0.0);
 floor.matrix.scale(10, 0, 10);
 floor.matrix.translate(-.5, 0, -0.5);
 floor.render();
+
+//sky
+
+var sky = new Cube();
+sky.color = [1.0, 0.0, 0.0, 1.0];
+sky.textureNum = 1;
+sky.matrix.scale(50, 50, 50);
+sky.matrix.translate(-.5, -.5, -0.5);
+sky.render();
 
 var body = new Cube();
 body.color = [1.0, 0.0, 0.0, 1.0];
