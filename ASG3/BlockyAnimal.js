@@ -387,7 +387,7 @@ function updateAnimationAngles()
   }
 }
 
-function keydown(ev)
+/* function keydown(ev)
 {
   if(ev.keyCode == 37) //right arrow
   {
@@ -399,7 +399,40 @@ function keydown(ev)
   }
   renderAllShapes();
   console.log(ev.keyCode);
-}
+} */
+
+  function keydown(ev) {
+    switch(ev.key) {
+      case 'w':
+      case 'W':
+        g_camera.forward();
+        break;
+      case 's':
+      case 'S':
+        g_camera.back();
+        break;
+      case 'a':
+      case 'A':
+        g_camera.left();
+        break;
+      case 'd':
+      case 'D':
+        g_camera.right();
+        break;
+      case 'q':
+      case 'Q':
+        g_camera.panLeft();
+        break;
+      case 'e':
+      case 'E':
+        g_camera.panRight();
+        break;
+      default:
+        return; // exit early if irrelevant key
+    }
+    renderAllShapes(); // re-render scene after camera movement
+  }
+  
 
 var g_eye = [0, 0, 3];
 var g_at = [0, 0, -100];
