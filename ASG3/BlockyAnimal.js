@@ -236,7 +236,7 @@ function initTextures() {
   // Register the event handler to be called on loading an image
   image.onload = function(){ sendTextureToTEXTURE0(image); };
   // Tell the browser to load an image
-  image.src = 'sky.jpg';
+  image.src = 'stone-wall-128x128.jpg';
 
   return true;
 }
@@ -287,6 +287,7 @@ function main() {
   // Specify the color for clearing <canvas>
 
   initTextures();
+  //initMap();
 
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -438,7 +439,7 @@ var g_eye = [0, 0, 3];
 var g_at = [0, 0, -100];
 var g_up = [0, 1, 0];
 
-var g_map = [
+  var g_map = [
   [1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,0,1],
   [1,0,0,0,0,0,0,1],
@@ -451,20 +452,21 @@ var g_map = [
 
 function drawMap()
 {
-  for(x=0; x<8; x++)
+  for(x=0; x<32; x++)
   {
-    for(y=0; y<8; y++)
+    for(y=0; y<32; y++)
     {
-      if(g_map[x][y] == 1)
+      if(x < 1 || x==31 || y==0 || y == 31)
       {
         var body = new Cube();
         body.color = [1.0, 1.0, 1.0, 1.0];
         body.matrix.translate(x-4, -.85, y-4);
         body.render();
+       // body.renderfast();
       }
     }
   }
-}
+}  
 
 function renderAllShapes()
 {
@@ -499,6 +501,9 @@ gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawTriangle3D([-1.0, 0.0, 0.0,   -0.5, -1.0, 0.0, 0.0, 0.0, 0.0]);
+
+//Comment this out until we figure out performance issues:
+
 //drawMap();
 
 //floor
