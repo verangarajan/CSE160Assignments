@@ -494,17 +494,17 @@ var g_at = [0, 0, -100];
 var g_up = [0, 1, 0];
 
   var g_map = [
-  [1,1,1,1,1,1,1,1],
+  [1,1,1,4,1,1,1,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,2,0,0,0,0,1],
+  [1,0,0,4,0,0,0,1],
   [1,0,0,0,0,0,0,1],
   [1,0,0,0,0,0,0,1],
-  [1,0,0,1,1,0,0,1],
-  [1,0,0,0,0,0,0,1],
-  [1,0,0,0,0,0,0,1],
-  [1,0,0,0,1,0,0,1],
+  [1,0,0,0,5,0,0,1],
   [1,0,0,0,0,0,0,1]
 ];
 
-function drawMap()
+/* function drawMap()
 {
   for(x=0; x<16; x++)
   {
@@ -517,11 +517,26 @@ function drawMap()
         body.textureNum = 1;
         body.matrix.translate(x-4, -.85, y-4);
         body.render();
-       // body.renderfast();
       }
     }
   }
-}  
+}  */ 
+
+  function drawMap() {
+    for (let x = 0; x < g_map.length; x++) {
+      for (let y = 0; y < g_map[x].length; y++) {
+        let height = g_map[x][y];
+        for (let h = 0; h < height; h++) {
+          let body = new Cube();
+          body.color = [1.0, 1.0, 1.0, 1.0];
+          body.textureNum = 1;
+          body.matrix.translate(x - g_map.length / 2, -0.85 + h, y - g_map[x].length / 2);
+          body.render();
+        }
+      }
+    }
+  }
+  
 
 function renderAllShapes()
 {
