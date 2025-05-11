@@ -496,8 +496,32 @@ var g_up = [0, 1, 0];
   var g_map = [
   [1,1,1,4,1,1,1,1],
   [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,4,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,5,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,4,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,5,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0],
+  [1,0,0,0,0,0,0,1],
   [1,0,2,0,0,0,0,1],
   [1,0,0,4,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [1,0,0,0,5,0,0,1],
+  [1,0,0,0,0,0,0,1],
+  [0,0,0,0,0,0,0,0],
+  [1,0,0,0,0,0,0,1],
+  [1,0,2,0,0,0,0,1],
+  [1,0,0,0,0,0,0,1],
   [1,0,0,0,0,0,0,1],
   [1,0,0,0,0,0,0,1],
   [1,0,0,0,5,0,0,1],
@@ -522,7 +546,7 @@ var g_up = [0, 1, 0];
   }
 }  */ 
 
-  function drawMap() {
+ /*  function drawMap() {
     for (let x = 0; x < g_map.length; x++) {
       for (let y = 0; y < g_map[x].length; y++) {
         let height = g_map[x][y];
@@ -535,7 +559,26 @@ var g_up = [0, 1, 0];
         }
       }
     }
-  }
+  } */
+
+    function drawMap() {
+      let body = new Cube(); // Reuse this cube for all tiles
+      body.color = [1.0, 1.0, 1.0, 1.0];
+      body.textureNum = 1;
+    
+      for (let x = 0; x < g_map.length; x++) {
+        for (let y = 0; y < g_map[x].length; y++) {
+          let height = g_map[x][y];
+          for (let h = 0; h < height; h++) {
+            // Reset the matrix before each transformation
+            body.matrix.setIdentity();
+            body.matrix.translate(x - g_map.length / 2, -0.85 + h, y - g_map[x].length / 2);
+            body.render();
+          }
+        }
+      }
+    }
+    
   
 
 function renderAllShapes()
