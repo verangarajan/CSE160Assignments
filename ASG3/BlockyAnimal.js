@@ -68,6 +68,7 @@ let u_viewMatrix;
 let u_Sampler0;
 let u_whichTexture;
 
+
 function setupWebGL()
 {
  // Retrieve <canvas> element
@@ -189,6 +190,8 @@ let g_rightArmAngle = 90;
 let g_rightHandAngle = 90;
 let g_rightFingerAngle = 90;
 let g_armAnimation = false;
+let g_mouseLastX = null;
+
 function addActionsForHtmlUI()
 {
 
@@ -335,7 +338,13 @@ function main() {
   canvas.onmousedown = click;
   //canvas.onmousemove = click;
 
-  canvas.onmousemove = function(ev) {if(ev.buttons == 1){click(ev)}};
+  //canvas.onmousemove = function(ev) {if(ev.buttons == 1){click(ev)}};
+
+  canvas.onmouseup = () => g_mouseLastX = null;
+  canvas.onmouseleave = () => g_mouseLastX = null;
+
+canvas.onmousemove = onMouseMove;
+
 
   document.onkeydown = keydown;
   // Specify the color for clearing <canvas>
@@ -420,6 +429,27 @@ function click(ev) {
 
   renderAllShapes();
 }
+
+
+function onMouseMove(ev) {
+  if (ev.buttons !== 1) return; // Only rotate when mouse is held down
+
+  if (g_mouseLastX !== null) {
+    const deltaX = ev.clientX - g_mouseLastX;
+
+    // Rotate for every N pixels moved
+    const threshold = 5;
+    if (deltaX > threshold) {
+      g_camera.panRight(); // fixed 2 deg
+    } else if (deltaX < -threshold) {
+      g_camera.panLeft();  // fixed 2 deg
+    }
+  }
+
+  g_mouseLastX = ev.clientX;
+  renderAllShapes();
+}
+
 
 function convertCoordinatesEventToGL(ev)
 {
