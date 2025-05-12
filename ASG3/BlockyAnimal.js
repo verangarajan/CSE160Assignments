@@ -271,6 +271,8 @@ function initTextures() {
   return true;
 }
 
+
+
 function sendTextureToTEXTURE0(image) {
 
   var texture = gl.createTexture();   // Create a texture object
@@ -324,6 +326,24 @@ function sendTextureToTEXTURE1(image) {
 
  // gl.drawArrays(gl.TRIANGLE_STRIP, 0, n); // Draw the rectangle
 }
+
+function getMapCellInFront(camera, distance = 1) {
+  const forward = camera.at.sub(camera.eye);
+  forward.normalize(); // Ensure it's a unit vector
+
+  const posX = camera.eye.elements[0] + forward.elements[0] * distance;
+  const posZ = camera.eye.elements[2] + forward.elements[2] * distance;
+
+  const mapX = Math.round(posX + g_map.length / 2);
+  const mapZ = Math.round(posZ + g_map[0].length / 2);
+
+  if (mapX >= 0 && mapX < g_map.length && mapZ >= 0 && mapZ < g_map[0].length) {
+    return [mapX, mapZ];
+  }
+
+  return null; // out of bounds
+}
+
 
 
 function main() {
@@ -440,9 +460,9 @@ function onMouseMove(ev) {
     // Rotate for every N pixels moved
     const threshold = 5;
     if (deltaX > threshold) {
-      g_camera.panRight(); // fixed 2 deg
+      g_camera.panRightDrag(); // fixed 2 deg
     } else if (deltaX < -threshold) {
-      g_camera.panLeft();  // fixed 2 deg
+      g_camera.panLeftDrag();  // fixed 2 deg
     }
   }
 
@@ -508,6 +528,26 @@ function updateAnimationAngles()
       case 'Q':
         g_camera.panLeft();
         break;
+      case 't':
+      case 'T': {
+        const front = getMapCellInFront(g_camera);
+        if (front) {
+          const [x, z] = front;
+          g_map[x][z] += 1; // Increase height
+        }
+        break;
+      }
+      case 'g':
+      case 'G': {
+        const front = getMapCellInFront(g_camera);
+        if (front) {
+          const [x, z] = front;
+          if (g_map[x][z] > 0) {
+            g_map[x][z] -= 1; // Decrease height
+        }
+       }
+  break;
+      }
       case 'e':
       case 'E':
         g_camera.panRight();
