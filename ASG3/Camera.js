@@ -41,8 +41,8 @@ class Camera
         f = f.div(f.magnitude()); 
         var s = Vector3.cross(f, this.up);       
         s = s.div(s.magnitude());
-        this.at = this.at.add(s);
-        this.eye = this.eye.add(s);
+        this.at = this.at.sub(s);
+        this.eye = this.eye.sub(s);
     }
 
     panLeft() {
