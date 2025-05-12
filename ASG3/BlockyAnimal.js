@@ -191,6 +191,10 @@ let g_rightHandAngle = 90;
 let g_rightFingerAngle = 90;
 let g_armAnimation = false;
 let g_mouseLastX = null;
+let g_lastFrameTime = performance.now();
+let g_frameCount = 0;
+let g_fps = 0;
+
 
 function addActionsForHtmlUI()
 {
@@ -389,6 +393,19 @@ function tick()
   g_seconds = performance.now()/1000.0-g_startTime;
 
   //console.log(g_seconds);
+  const now = performance.now();
+  g_frameCount++;
+  if (now - g_lastFrameTime >= 1000) {
+    g_fps = g_frameCount;
+    g_frameCount = 0;
+    g_lastFrameTime = now;
+    //console.log(`FPS: ${g_fps}`);
+  }
+
+  const fpsDisplay = document.getElementById('fpsDisplay');
+  if (fpsDisplay) {
+    fpsDisplay.textContent = `FPS: ${g_fps}`;
+  }
 
   updateAnimationAngles();
 
