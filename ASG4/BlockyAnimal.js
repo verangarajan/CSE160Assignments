@@ -736,6 +736,11 @@ floor.matrix.scale(100, 0, 100);
 floor.matrix.translate(-.5, 0, -0.5);
 floor.render();
 
+//sphere
+
+var sphere = new Sphere();
+sphere.render();
+
 //sky
 
 var sky = new Cube();
