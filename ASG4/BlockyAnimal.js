@@ -558,6 +558,8 @@ function updateAnimationAngles()
   {
     g_rightArmAngle = (-20+45*Math.sin(g_seconds));
   }
+
+  g_lightPos[0] = Math.cos(g_seconds);
 }
 
 /* function keydown(ev)
