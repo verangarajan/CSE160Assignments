@@ -11,6 +11,7 @@ var VSHADER_SOURCE = `
   attribute vec3 a_Normal;
   varying vec2 v_UV;
   varying vec3 v_Normal;
+  varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotateMatrix;
   uniform mat4 u_viewMatrix;
@@ -19,6 +20,7 @@ var VSHADER_SOURCE = `
     gl_Position = u_ProjectionMatrix * u_viewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
     v_Normal = a_Normal;
+    v_VertPos = u_ModelMatrix * a_Position;
   }
 `
 
@@ -31,7 +33,8 @@ var FSHADER_SOURCE = `
   uniform sampler2D u_Sampler0;
   uniform sampler2D u_Sampler1;
   uniform int u_whichTexture;
-
+  uniform vec3 u_lightPos;
+  varying vec4 v_VertPos;
   void main() {
 
    
@@ -63,6 +66,16 @@ var FSHADER_SOURCE = `
   {
   gl_FragColor = vec4(0, 0, 1, 1);
   }
+  vec3 lightVector = vec3(v_VertPos)-u_lightPos;
+  float r = length(lightVector);
+  if (r < 1.0)
+  {
+   gl_FragColor = vec4(1, 0, 0, 1);
+  }
+   else if (r < 2.0)
+   {
+   gl_FragColor = vec4(0, 1, 0, 1);
+   }
 }`
 
 let canvas;
@@ -77,7 +90,9 @@ let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_viewMatrix;
 let u_Sampler0;
+let u_Sampler1;
 let u_whichTexture;
+let u_lightPos;
 
 
 function setupWebGL()
@@ -129,6 +144,12 @@ if (a_UV < 0) {
 a_Normal = gl.getAttribLocation(gl.program, 'a_Normal');
 if (a_Normal < 0) {
   console.log('Failed to get the storage location of a_Normal');
+  return;
+}
+
+u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
+if (!u_lightPos) {
+  console.log('Failed to get the storage location of u_lightPos');
   return;
 }
 
@@ -212,6 +233,8 @@ let g_lastFrameTime = performance.now();
 let g_frameCount = 0;
 let g_fps = 0;
 let g_normalOn = false;
+let g_lightPos = [0, 1, -2];
+
 
 
 function addActionsForHtmlUI()
@@ -219,6 +242,13 @@ function addActionsForHtmlUI()
 
   document.getElementById("normalOn").onclick = function() {g_normalOn = true;};
   document.getElementById("normalOff").onclick = function() {g_normalOn = false;};
+
+  document.getElementById("lightSlideX").addEventListener('mousemove', function(ev) {if(ev.buttons == 1) {g_lightPos[0] = this.value/100; renderAllShapes()}});
+  document.getElementById("lightSlideY").addEventListener('mousemove', function(ev) {if(ev.buttons == 1) {g_lightPos[1] = this.value/100; renderAllShapes()}});
+  document.getElementById("lightSlideZ").addEventListener('mousemove', function(ev) {if(ev.buttons == 1) {g_lightPos[2] = this.value/100; renderAllShapes()}});
+
+
+  
 
   document.getElementById("animationArmONbutton").onclick = function() {g_armAnimation = true;};
   document.getElementById("animationArmOFFbutton").onclick = function() {g_armAnimation = false;};
@@ -727,6 +757,8 @@ gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 //drawMap();
 
+gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+
 //floor
 var floor = new Cube();
 floor.color = [1.0, 0.0, 0.0, 1.0];
@@ -736,9 +768,20 @@ floor.matrix.scale(100, 0, 100);
 floor.matrix.translate(-.5, 0, -0.5);
 floor.render();
 
+//light 
+
+var light = new Cube();
+light.color = [2, 2, 0, 1];
+light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+light.matrix.scale(.1, .1, .1);
+light.matrix.translate(-.5, -.5, -.5);
+light.render();
+
 //sphere
 
 var sphere = new Sphere();
+sphere.matrix.translate(-.5, 0, -0.5);
+sphere.matrix.scale(0.5, 0.5, 0.5);
 sphere.render();
 
 //sky
@@ -765,7 +808,7 @@ body.textureNum = -3;
 //body.textureNum = 0;
 body.matrix.translate(-.25, -.5, 0.0);
 body.matrix.scale(0.5, 1, .5);
-body.render();
+//body.render();
 
 //var duration = performance.now() - startTime;
 
@@ -788,7 +831,7 @@ else
 } */
 
 var handCoordinates = new Matrix4(rightArm.matrix);
-rightArm.render();
+//rightArm.render();
 
 var rightHand = new Cube();
 rightHand.color = [0,1,0,1];
@@ -797,7 +840,7 @@ rightHand.matrix.translate(0.3, 1.4, 0.0001);
 rightHand.matrix.rotate(-g_rightHandAngle, 0, 0, 1);
 rightHand.matrix.scale(0.5, 0.5, .5);
 var fingerCoordinates = new Matrix4(rightHand.matrix);
-rightHand.render();
+//rightHand.render();
 
 var rightFinger = new Cube();
 rightFinger.color = [1, 0.6, 0, 1]; 
@@ -805,7 +848,7 @@ rightFinger.matrix = fingerCoordinates;
 rightFinger.matrix.translate(-0.3, 0.8, 0.0001); 
 rightFinger.matrix.rotate(-g_rightFingerAngle, 0, 0, 1); 
 rightFinger.matrix.scale(0.4, 0.4, 0.4); 
-rightFinger.render();
+//rightFinger.render();
 
 
 var leftArm = new Cube();
@@ -813,21 +856,21 @@ leftArm.color = [1,1,0,1];
 leftArm.matrix.setTranslate(-.75, 0.15, 0.0);
 leftArm.matrix.rotate(-90, 0, 0, 1);
 leftArm.matrix.scale(0.2, .5, .5);
-leftArm.render();
+//leftArm.render();
 
 var leftHand = new Cube();
 leftHand .color = [0,1,0,1];
 leftHand.matrix.setTranslate(-0.90, 0.125, 0.0);
 leftHand.matrix.rotate(-90, 0, 0, 1);
 leftHand.matrix.scale(0.15, .15, .5);
-leftHand.render();
+//leftHand.render();
 
 var head = new Cube();
 head .color = [1,0,1,1];
 head.matrix.setTranslate(-0.1, 0.5, 0.0);
 //head.matrix.rotate(-45, 0, 0, 1);
 head.matrix.scale(0.25, 0.25, .5);
-head.render();
+//head.render();
 
 
 var rightLeg = new Cube();
@@ -835,14 +878,14 @@ rightLeg.color = [1,1,0,1];
 rightLeg.matrix.setTranslate(0.05, -0.9, 0.0);
 rightLeg.matrix.rotate(0, 0, 0, 1);
 rightLeg.matrix.scale(0.2, .4, .5);
-rightLeg.render();
+//rightLeg.render();
 
 var leftLeg = new Cube();
 leftLeg.color = [1,1,0,1];
 leftLeg.matrix.setTranslate(-0.05, -0.9, 0.0);
 leftLeg.matrix.rotate(0, 0, 0, 1);
 leftLeg.matrix.scale(-0.2, .4, .5);
-leftLeg.render();
+//leftLeg.render();
 
 }
 
