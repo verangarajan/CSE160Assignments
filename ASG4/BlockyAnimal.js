@@ -37,6 +37,7 @@ var FSHADER_SOURCE = `
   uniform vec3 u_cameraPos;
   varying vec4 v_VertPos;
   uniform bool u_lightOn;
+  uniform vec3 u_lightColor;
   void main() {
 
    
@@ -89,7 +90,7 @@ var FSHADER_SOURCE = `
 
    float specular = pow(max(dot(E, R), 0.0), 64.0) * 0.8;
 
-   vec3 diffuse = vec3(1.0, 1.0, 0.9) * vec3(gl_FragColor) * nDotL * 0.7;
+   vec3 diffuse = u_lightColor * vec3(gl_FragColor) * nDotL * 0.7;
    vec3 ambient = vec3(gl_FragColor) * 0.3;
    if(u_lightOn)
    {
@@ -121,6 +122,7 @@ let u_whichTexture;
 let u_lightPos;
 let u_cameraPos;
 let u_lightOn;
+let u_lightColor;
 
 
 function setupWebGL()
@@ -192,6 +194,13 @@ if (!u_ModelMatrix) {
   console.log('Failed to get the storage location of u_ModelMatrix');
   return;
 }
+
+u_lightColor = gl.getUniformLocation(gl.program, 'u_lightColor');
+if (!u_lightColor) {
+  console.log('Failed to get the storage location of u_lightColor');
+  return;
+}
+
 
 u_GlobalRotateMatrix = gl.getUniformLocation(gl.program, 'u_GlobalRotateMatrix');
 if (!u_GlobalRotateMatrix) {
@@ -275,6 +284,8 @@ let g_fps = 0;
 let g_normalOn = false;
 let g_lightPos = [0, 1, -2];
 let g_lightOn = true;
+let g_lightColor = [1.0, 1.0, 1.0];
+
 
 
 
@@ -316,7 +327,9 @@ function addActionsForHtmlUI()
   document.getElementById('randomColorButton').onclick = function() {setRandomColor();};
 
 
-
+  document.getElementById('lightRed').addEventListener('mouseup', function() {g_lightColor[0] = this.value/100;});
+  document.getElementById('lightGreen').addEventListener('mouseup', function() {g_lightColor[1] = this.value/100;});
+  document.getElementById('lightBlue').addEventListener('mouseup', function() {g_lightColor[2] = this.value/100;});
 
   //sliders 
   document.getElementById('redSlide').addEventListener('mouseup', function() {g_selectedColor[0] = this.value/100;});
@@ -805,7 +818,7 @@ gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
 
-
+gl.uniform3f(u_lightColor, g_lightColor[0], g_lightColor[1], g_lightColor[2]);
 gl.uniform3f(u_cameraPos, g_camera.eye.elements[0], g_camera.eye.elements[1], g_camera.eye.elements[2]);
 gl.uniform1i(u_lightOn, g_lightOn);
 
