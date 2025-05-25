@@ -13,13 +13,15 @@ var VSHADER_SOURCE = `
   varying vec3 v_Normal;
   varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
+  uniform mat4 u_NormalMatrix;
   uniform mat4 u_GlobalRotateMatrix;
   uniform mat4 u_viewMatrix;
   uniform mat4 u_ProjectionMatrix;
   void main() {
     gl_Position = u_ProjectionMatrix * u_viewMatrix * u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
-    v_Normal = a_Normal;
+   //v_Normal = a_Normal;
+   v_Normal = normalize(vec3(u_NormalMatrix * vec4(a_Normal, 1)));
     v_VertPos = u_ModelMatrix * a_Position;
   }
 `
@@ -44,8 +46,10 @@ var FSHADER_SOURCE = `
   if(u_whichTexture == -3)
   {
   gl_FragColor = vec4((v_Normal+1.0)/2.0, 1.0);
+  //gl_FragColor = vec4(abs(v_Normal), 1.0);
+
   }
-   if(u_whichTexture == -2)
+  else if(u_whichTexture == -2)
    {
     gl_FragColor = u_FragColor;
    }
@@ -71,6 +75,7 @@ var FSHADER_SOURCE = `
   }
   vec3 lightVector = u_lightPos-vec3(v_VertPos);
   float r = length(lightVector);
+
   //if (r < 1.0)
   //{
    //gl_FragColor = vec4(1, 0, 0, 1);
@@ -114,6 +119,7 @@ let u_Size;
 let a_UV;
 let u_GlobalRotateMatrix;
 let u_ModelMatrix;
+let u_NormalMatrix;
 let u_ProjectionMatrix;
 let u_viewMatrix;
 let u_Sampler0;
@@ -192,6 +198,12 @@ if (!u_cameraPos) {
 u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
 if (!u_ModelMatrix) {
   console.log('Failed to get the storage location of u_ModelMatrix');
+  return;
+}
+
+u_NormalMatrix = gl.getUniformLocation(gl.program, 'u_NormalMatrix');
+if (!u_NormalMatrix) {
+  console.log('Failed to get the storage location of u_NormalMatrix');
   return;
 }
 
@@ -860,7 +872,7 @@ console.log("g_normalon: ", g_normalOn);
 if(g_normalOn)
 {
 //sky.textureNum = 99;
-sky.textureNum = -3;
+//sky.textureNum = -3;
 }
 sky.matrix.scale(50, 50, 50);
 sky.matrix.translate(-.5, -.5, -0.5);
@@ -877,6 +889,7 @@ regularCube.textureNum = -3;
 //body.textureNum = 0;
 regularCube.matrix.translate(-.25, -.5, 0.0);
 regularCube.matrix.scale(0.2, 0.2, .2);
+regularCube.normalMatrix.setInverseOf(regularCube.matrix).transpose();
 regularCube.render();
 
 var body = new Cube();
