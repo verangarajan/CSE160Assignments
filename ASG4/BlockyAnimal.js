@@ -862,7 +862,7 @@ sky.matrix.translate(-.5, -.5, -0.5);
 sky.render();
 
 var body = new Cube();
-body.color = [1.0, 0.0, 0.0, 1.0];
+body.color = [0.0, 1.0, 0.0, 1.0];
 if(g_normalOn)
 {
 //sky.textureNum = 99;
@@ -870,8 +870,8 @@ body.textureNum = -3;
 }
 //body.textureNum = 0;
 body.matrix.translate(-.25, -.5, 0.0);
-body.matrix.scale(0.5, 1, .5);
-//body.render();
+body.matrix.scale(0.2, 0.2, .2);
+body.render();
 
 //var duration = performance.now() - startTime;
 
