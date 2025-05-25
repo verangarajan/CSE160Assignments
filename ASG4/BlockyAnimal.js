@@ -843,6 +843,11 @@ light.render();
 //sphere
 
 var sphere = new Sphere();
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+sphere.textureNum = -3;
+}
 sphere.matrix.translate(-.5, 0, -0.5);
 sphere.matrix.scale(0.5, 0.5, 0.5);
 sphere.render();
@@ -861,6 +866,19 @@ sky.matrix.scale(50, 50, 50);
 sky.matrix.translate(-.5, -.5, -0.5);
 sky.render();
 
+
+var regularCube = new Cube();
+regularCube.color = [0.0, 1.0, 0.0, 1.0];
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+regularCube.textureNum = -3;
+}
+//body.textureNum = 0;
+regularCube.matrix.translate(-.25, -.5, 0.0);
+regularCube.matrix.scale(0.2, 0.2, .2);
+regularCube.render();
+
 var body = new Cube();
 body.color = [0.0, 1.0, 0.0, 1.0];
 if(g_normalOn)
@@ -870,13 +888,18 @@ body.textureNum = -3;
 }
 //body.textureNum = 0;
 body.matrix.translate(-.25, -.5, 0.0);
-body.matrix.scale(0.2, 0.2, .2);
-body.render();
+body.matrix.scale(0.5, 1, .5);
+//body.render();
 
 //var duration = performance.now() - startTime;
 
 var rightArm = new Cube();
 rightArm.color = [1,1,0,1];
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+rightArm.textureNum = -3;
+}
 rightArm.matrix.setTranslate(.25, 0.15, 0.0);
 rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
 
