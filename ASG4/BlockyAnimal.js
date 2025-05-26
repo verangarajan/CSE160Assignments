@@ -868,7 +868,7 @@ sphere.render();
 
 var sky = new Cube();
 sky.color = [1.0, 0.0, 0.0, 1.0];
-console.log("g_normalon: ", g_normalOn);
+//console.log("g_normalon: ", g_normalOn);
 if(g_normalOn)
 {
 //sky.textureNum = 99;
