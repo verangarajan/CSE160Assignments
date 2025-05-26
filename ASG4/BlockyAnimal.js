@@ -867,7 +867,7 @@ sphere.render();
 //sky
 
 var sky = new Cube();
-sky.color = [1.0, 0.0, 0.0, 1.0];
+sky.color = [0.0, 0.0, 1.0, 1.0];
 //console.log("g_normalon: ", g_normalOn);
 if(g_normalOn)
 {
@@ -892,6 +892,8 @@ regularCube.matrix.scale(0.2, 0.2, .2);
 regularCube.normalMatrix.setInverseOf(regularCube.matrix).transpose();
 regularCube.render();
 
+var body_offset = 0.5;
+
 var body = new Cube();
 body.color = [0.0, 1.0, 0.0, 1.0];
 if(g_normalOn)
@@ -900,8 +902,9 @@ if(g_normalOn)
 body.textureNum = -3;
 }
 //body.textureNum = 0;
-body.matrix.translate(-.25, -.5, 0.0);
+body.matrix.translate(-.25+body_offset, -.5, 0.0);
 body.matrix.scale(0.5, 1, .5);
+body.normalMatrix.setInverseOf(body.matrix).transpose();
 //body.render();
 
 //var duration = performance.now() - startTime;
@@ -913,7 +916,8 @@ if(g_normalOn)
 //sky.textureNum = 99;
 rightArm.textureNum = -3;
 }
-rightArm.matrix.setTranslate(.25, 0.15, 0.0);
+rightArm.matrix.setTranslate(.25+body_offset, 0.15, 0.0);
+rightArm.normalMatrix.setInverseOf(rightArm.matrix).transpose();
 rightArm.matrix.rotate(-g_rightArmAngle, 0, 0, 1);
 
 //rightArm.matrix.rotate(45*Math.sin(g_seconds), 0, 0, 1);
@@ -934,8 +938,14 @@ var handCoordinates = new Matrix4(rightArm.matrix);
 
 var rightHand = new Cube();
 rightHand.color = [0,1,0,1];
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+rightHand.textureNum = -3;
+}
 rightHand.matrix = handCoordinates;
-rightHand.matrix.translate(0.3, 1.4, 0.0001);
+rightHand.matrix.translate(0.3+body_offset, 1.4, 0.0001);
+rightHand.normalMatrix.setInverseOf(rightHand.matrix).transpose();
 rightHand.matrix.rotate(-g_rightHandAngle, 0, 0, 1);
 rightHand.matrix.scale(0.5, 0.5, .5);
 var fingerCoordinates = new Matrix4(rightHand.matrix);
@@ -943,8 +953,14 @@ var fingerCoordinates = new Matrix4(rightHand.matrix);
 
 var rightFinger = new Cube();
 rightFinger.color = [1, 0.6, 0, 1]; 
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+rightFinger.textureNum = -3;
+}
 rightFinger.matrix = fingerCoordinates;
-rightFinger.matrix.translate(-0.3, 0.8, 0.0001); 
+rightFinger.matrix.translate(-0.3+body_offset, 0.8, 0.0001); 
+rightFinger.normalMatrix.setInverseOf(rightFinger.matrix).transpose();
 rightFinger.matrix.rotate(-g_rightFingerAngle, 0, 0, 1); 
 rightFinger.matrix.scale(0.4, 0.4, 0.4); 
 //rightFinger.render();
@@ -952,21 +968,40 @@ rightFinger.matrix.scale(0.4, 0.4, 0.4);
 
 var leftArm = new Cube();
 leftArm.color = [1,1,0,1];
-leftArm.matrix.setTranslate(-.75, 0.15, 0.0);
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+leftArm.textureNum = -3;
+}
+leftArm.matrix.setTranslate(-.75+body_offset, 0.15, 0.0);
+leftArm.normalMatrix.setInverseOf(leftArm.matrix).transpose();
 leftArm.matrix.rotate(-90, 0, 0, 1);
 leftArm.matrix.scale(0.2, .5, .5);
 //leftArm.render();
 
 var leftHand = new Cube();
-leftHand .color = [0,1,0,1];
-leftHand.matrix.setTranslate(-0.90, 0.125, 0.0);
+leftHand.color = [0,1,0,1];
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+leftHand.textureNum = -3;
+}
+
+leftHand.matrix.setTranslate(-0.90+body_offset, 0.125, 0.0);
+leftHand.normalMatrix.setInverseOf(leftHand.matrix).transpose();
 leftHand.matrix.rotate(-90, 0, 0, 1);
 leftHand.matrix.scale(0.15, .15, .5);
 //leftHand.render();
 
 var head = new Cube();
-head .color = [1,0,1,1];
-head.matrix.setTranslate(-0.1, 0.5, 0.0);
+head.color = [1,0,1,1];
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+head.textureNum = -3;
+}
+head.matrix.setTranslate(-0.1+body_offset, 0.5, 0.0);
+head.normalMatrix.setInverseOf(head.matrix).transpose();
 //head.matrix.rotate(-45, 0, 0, 1);
 head.matrix.scale(0.25, 0.25, .5);
 //head.render();
@@ -974,14 +1009,26 @@ head.matrix.scale(0.25, 0.25, .5);
 
 var rightLeg = new Cube();
 rightLeg.color = [1,1,0,1];
-rightLeg.matrix.setTranslate(0.05, -0.9, 0.0);
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+rightLeg.textureNum = -3;
+}
+rightLeg.matrix.setTranslate(0.05+body_offset, -0.9, 0.0);
+rightLeg.normalMatrix.setInverseOf(rightLeg.matrix).transpose();
 rightLeg.matrix.rotate(0, 0, 0, 1);
 rightLeg.matrix.scale(0.2, .4, .5);
 //rightLeg.render();
 
 var leftLeg = new Cube();
 leftLeg.color = [1,1,0,1];
-leftLeg.matrix.setTranslate(-0.05, -0.9, 0.0);
+if(g_normalOn)
+{
+//sky.textureNum = 99;
+leftLeg.textureNum = -3;
+}
+leftLeg.matrix.setTranslate(-0.05+body_offset, -0.9, 0.0);
+leftLeg.normalMatrix.setInverseOf(leftLeg.matrix).transpose();
 leftLeg.matrix.rotate(0, 0, 0, 1);
 leftLeg.matrix.scale(-0.2, .4, .5);
 //leftLeg.render();
