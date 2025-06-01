@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const loader = new THREE.TextureLoader();
+
 
 // Create scene
 const scene = new THREE.Scene();
@@ -24,9 +26,18 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 7.5);
 scene.add(directionalLight);
 
-// Cube
+/* // Cube
 const cubeGeometry = new THREE.BoxGeometry();
 const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+cube.position.x = -2;
+scene.add(cube); */
+
+
+// Cube with texture
+const texture = loader.load('red-brick-wall-128x128.jpg'); // Replace with your texture file path
+const cubeMaterial = new THREE.MeshStandardMaterial({ map: texture });
+const cubeGeometry = new THREE.BoxGeometry();
 const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 cube.position.x = -2;
 scene.add(cube);
