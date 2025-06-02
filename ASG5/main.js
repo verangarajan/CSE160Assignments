@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+
 const loader = new THREE.TextureLoader();
 
 const cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -11,6 +14,22 @@ const skyboxTexture = cubeTextureLoader.load([
   'pz.jpg',
   'nz.jpg',
 ]);
+
+const mtlLoader = new MTLLoader();
+const objLoader = new OBJLoader();
+
+mtlLoader.load('Cat/12221_Cat_v1_l3.mtl', (materials) => {
+  materials.preload();
+  objLoader.setMaterials(materials);
+  objLoader.load('Cat/12221_Cat_v1_l3.obj', (object) => {
+    object.scale.set(0.05, 0.05, 0.05); // Scale down the model
+    object.position.set(-1, 0, 0);       // Optional: position it
+    object.rotation.x = -Math.PI / 2;
+
+
+    scene.add(object);
+  });
+});
 
 
 // Create scene
@@ -38,6 +57,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 7.5);
 scene.add(directionalLight);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // Soft white light
+scene.add(ambientLight);
+
 
 /* // Cube
 const cubeGeometry = new THREE.BoxGeometry();
