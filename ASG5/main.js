@@ -2,10 +2,23 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const loader = new THREE.TextureLoader();
 
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+const skyboxTexture = cubeTextureLoader.load([
+  'px.jpg',
+  'nx.jpg',
+  'py.jpg',
+  'ny.jpg',
+  'pz.jpg',
+  'nz.jpg',
+]);
+
 
 // Create scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x202020);
+//scene.background = new THREE.Color(0x202020);
+
+scene.background = skyboxTexture; // 🔹 Set skybox as background
+
 
 // Camera with perspective projection
 const camera = new THREE.PerspectiveCamera(
