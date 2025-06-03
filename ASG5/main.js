@@ -1,3 +1,5 @@
+//Used online documentation and ChatGPT for debugging purposes
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
@@ -99,6 +101,29 @@ const cylinderMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
 const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 cylinder.position.x = 2;
 scene.add(cylinder);
+
+const pillarCubes = [];
+const pillarMaterial = new THREE.MeshStandardMaterial({ map: texture }); // brown
+
+const positions = [
+  [-4, 0, -4], // back-left
+  [4, 0, -4],  // back-right
+  [-4, 0, 4],  // front-left
+  [4, 0, 4],   // front-right
+];
+
+positions.forEach(([x, y, z]) => {
+  for (let i = 0; i < 5; i++) {
+    const cube = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      pillarMaterial
+    );
+    cube.position.set(x, y + i, z); // Stack vertically (height = i)
+    scene.add(cube);
+    pillarCubes.push(cube);
+  }
+});
+
 
 // Animate (rotate cube)
 function animate() {
