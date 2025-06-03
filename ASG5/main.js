@@ -61,6 +61,14 @@ scene.add(directionalLight);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // Soft white light
 scene.add(ambientLight);
 
+const pointLight = new THREE.PointLight(0xffffff, 1, 100); // color, intensity, distance
+pointLight.position.set(2, 5, 2); // position above the scene
+scene.add(pointLight);
+
+//added point light visualizer
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+scene.add(pointLightHelper);
+
 
 /* // Cube
 const cubeGeometry = new THREE.BoxGeometry();
